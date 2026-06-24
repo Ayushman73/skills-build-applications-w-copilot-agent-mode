@@ -1,6 +1,5 @@
 import express from "express";
-import { apiUrl, port } from "./config.ts";
-import { connectDatabase } from "./config/database.ts";
+import { apiUrl } from "./config.ts";
 import usersRouter from "./routes/users.ts";
 import teamsRouter from "./routes/teams.ts";
 import activitiesRouter from "./routes/activities.ts";
@@ -25,14 +24,4 @@ app.use("/api/activities", activitiesRouter);
 app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/workouts", workoutsRouter);
 
-app.listen(port, () => {
-  console.log(`OctoFit Tracker backend listening on ${apiUrl}`);
-});
-
-connectDatabase()
-  .then(() => {
-    console.log("Connected to MongoDB:", process.env.MONGO_URI || "mongodb://127.0.0.1:27017/octofit_db");
-  })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err);
-  });
+export default app;
