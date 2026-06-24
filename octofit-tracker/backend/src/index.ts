@@ -1,6 +1,6 @@
 import express from "express";
-import mongoose from "mongoose";
-import { apiUrl, mongoUri, port } from "./config.ts";
+import { apiUrl, port } from "./config.ts";
+import { connectDatabase } from "./config/database.ts";
 import usersRouter from "./routes/users.ts";
 import teamsRouter from "./routes/teams.ts";
 import activitiesRouter from "./routes/activities.ts";
@@ -29,10 +29,9 @@ app.listen(port, () => {
   console.log(`OctoFit Tracker backend listening on ${apiUrl}`);
 });
 
-mongoose
-  .connect(mongoUri)
+connectDatabase()
   .then(() => {
-    console.log("Connected to MongoDB:", mongoUri);
+    console.log("Connected to MongoDB:", process.env.MONGO_URI || "mongodb://127.0.0.1:27017/octofit_db");
   })
   .catch((err) => {
     console.error("MongoDB connection error:", err);
