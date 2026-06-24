@@ -9,6 +9,12 @@ interface Team {
   createdAt: string;
 }
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const apiHost = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : "http://localhost:8000";
+const teamsEndpoint = `${apiHost}/api/teams/`;
+
 function Teams() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [error, setError] = useState<string | undefined>();
@@ -17,7 +23,7 @@ function Teams() {
   useEffect(() => {
     async function loadTeams() {
       setLoading(true);
-      const result = await fetchApi<{ teams?: Team[]; data?: Team[] }>("/api/teams/");
+      const result = await fetchApi<{ teams?: Team[]; data?: Team[] }>(teamsEndpoint);
       if (result.error) {
         setError(result.error);
       } else {

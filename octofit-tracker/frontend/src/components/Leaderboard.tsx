@@ -9,6 +9,12 @@ interface LeaderboardEntry {
   updatedAt: string;
 }
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const apiHost = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : "http://localhost:8000";
+const leaderboardEndpoint = `${apiHost}/api/leaderboard/`;
+
 function Leaderboard() {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [error, setError] = useState<string | undefined>();
@@ -17,7 +23,7 @@ function Leaderboard() {
   useEffect(() => {
     async function loadLeaderboard() {
       setLoading(true);
-      const result = await fetchApi<{ leaderboard?: LeaderboardEntry[]; data?: LeaderboardEntry[] }>("/api/leaderboard/");
+      const result = await fetchApi<{ leaderboard?: LeaderboardEntry[]; data?: LeaderboardEntry[] }>(leaderboardEndpoint);
       if (result.error) {
         setError(result.error);
       } else {

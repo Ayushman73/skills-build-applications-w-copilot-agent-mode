@@ -9,6 +9,12 @@ interface Activity {
   performedAt: string;
 }
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const apiHost = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : "http://localhost:8000";
+const activitiesEndpoint = `${apiHost}/api/activities/`;
+
 function Activities() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [error, setError] = useState<string | undefined>();
@@ -17,7 +23,7 @@ function Activities() {
   useEffect(() => {
     async function loadActivities() {
       setLoading(true);
-      const result = await fetchApi<{ activities?: Activity[]; data?: Activity[] }>("/api/activities/");
+      const result = await fetchApi<{ activities?: Activity[]; data?: Activity[] }>(activitiesEndpoint);
       if (result.error) {
         setError(result.error);
       } else {

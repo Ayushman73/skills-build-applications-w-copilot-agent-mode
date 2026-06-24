@@ -9,6 +9,12 @@ interface Workout {
   completedAt: string;
 }
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const apiHost = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : "http://localhost:8000";
+const workoutsEndpoint = `${apiHost}/api/workouts/`;
+
 function Workouts() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | undefined>();
@@ -17,7 +23,7 @@ function Workouts() {
   useEffect(() => {
     async function loadWorkouts() {
       setLoading(true);
-      const result = await fetchApi<{ workouts?: Workout[]; data?: Workout[] }>("/api/workouts/");
+      const result = await fetchApi<{ workouts?: Workout[]; data?: Workout[] }>(workoutsEndpoint);
       if (result.error) {
         setError(result.error);
       } else {

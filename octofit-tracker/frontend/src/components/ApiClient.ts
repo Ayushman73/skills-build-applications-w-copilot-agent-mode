@@ -9,10 +9,14 @@ export interface ApiResponse<T> {
 }
 
 export async function fetchApi<T>(path: string): Promise<ApiResponse<T>> {
-  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const normalizedPath = path.startsWith("http://") || path.startsWith("https://")
+    ? path
+    : path.startsWith("/")
+      ? `${apiHost}${path}`
+      : `${apiHost}/${path}`;
 
   try {
-    const response = await fetch(`${apiHost}${normalizedPath}`);
+    const response = await fetch(normalizedPath);
     if (!response.ok) {
       const body = await response.json().catch(() => null);
       return { data: null as unknown as T, error: body?.error || response.statusText };

@@ -9,6 +9,12 @@ interface User {
   joinedAt: string;
 }
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const apiHost = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : "http://localhost:8000";
+const usersEndpoint = `${apiHost}/api/users/`;
+
 function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | undefined>();
@@ -17,7 +23,7 @@ function Users() {
   useEffect(() => {
     async function loadUsers() {
       setLoading(true);
-      const result = await fetchApi<{ users?: User[]; data?: User[] }>("/api/users/");
+      const result = await fetchApi<{ users?: User[]; data?: User[] }>(usersEndpoint);
       if (result.error) {
         setError(result.error);
       } else {
