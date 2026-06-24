@@ -7,5 +7,5 @@ const sanitizedCodespace = codespaceName
   .replace(/^-+|-+$/g, "");
 
 export const apiUrl = sanitizedCodespace
-  ? `https://${sanitizedCodespace}-8000.githubpreview.dev`
+  ? `https://${sanitizedCodespace}-8000.app.github.dev`
   : `http://localhost:${port}`;
