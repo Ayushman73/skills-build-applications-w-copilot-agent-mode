@@ -17,7 +17,7 @@ function Teams() {
   useEffect(() => {
     async function loadTeams() {
       setLoading(true);
-      const result = await fetchApi<{ teams?: Team[]; data?: Team[] }>("/teams");
+      const result = await fetchApi<{ teams?: Team[]; data?: Team[] }>("/api/teams/");
       if (result.error) {
         setError(result.error);
       } else {

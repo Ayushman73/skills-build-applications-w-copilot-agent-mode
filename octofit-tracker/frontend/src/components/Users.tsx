@@ -17,7 +17,7 @@ function Users() {
   useEffect(() => {
     async function loadUsers() {
       setLoading(true);
-      const result = await fetchApi<{ users?: User[]; data?: User[] }>("/users");
+      const result = await fetchApi<{ users?: User[]; data?: User[] }>("/api/users/");
       if (result.error) {
         setError(result.error);
       } else {

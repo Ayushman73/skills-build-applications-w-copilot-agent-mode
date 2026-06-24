@@ -17,7 +17,7 @@ function Activities() {
   useEffect(() => {
     async function loadActivities() {
       setLoading(true);
-      const result = await fetchApi<{ activities?: Activity[]; data?: Activity[] }>("/activities");
+      const result = await fetchApi<{ activities?: Activity[]; data?: Activity[] }>("/api/activities/");
       if (result.error) {
         setError(result.error);
       } else {

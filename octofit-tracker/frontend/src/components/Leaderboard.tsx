@@ -17,7 +17,7 @@ function Leaderboard() {
   useEffect(() => {
     async function loadLeaderboard() {
       setLoading(true);
-      const result = await fetchApi<{ leaderboard?: LeaderboardEntry[]; data?: LeaderboardEntry[] }>("/leaderboard");
+      const result = await fetchApi<{ leaderboard?: LeaderboardEntry[]; data?: LeaderboardEntry[] }>("/api/leaderboard/");
       if (result.error) {
         setError(result.error);
       } else {

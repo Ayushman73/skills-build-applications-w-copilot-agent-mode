@@ -17,7 +17,7 @@ function Workouts() {
   useEffect(() => {
     async function loadWorkouts() {
       setLoading(true);
-      const result = await fetchApi<{ workouts?: Workout[]; data?: Workout[] }>("/workouts");
+      const result = await fetchApi<{ workouts?: Workout[]; data?: Workout[] }>("/api/workouts/");
       if (result.error) {
         setError(result.error);
       } else {

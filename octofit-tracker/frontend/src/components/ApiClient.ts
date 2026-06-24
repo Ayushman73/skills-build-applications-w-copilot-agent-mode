@@ -1,9 +1,7 @@
 const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
-const host = codespaceName
+export const apiHost = codespaceName
   ? `https://${codespaceName}-8000.app.github.dev`
   : "http://localhost:8000";
-
-export const apiBase = `${host}/api`;
 
 export interface ApiResponse<T> {
   data: T;
@@ -11,8 +9,10 @@ export interface ApiResponse<T> {
 }
 
 export async function fetchApi<T>(path: string): Promise<ApiResponse<T>> {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
   try {
-    const response = await fetch(`${apiBase}${path}`);
+    const response = await fetch(`${apiHost}${normalizedPath}`);
     if (!response.ok) {
       const body = await response.json().catch(() => null);
       return { data: null as unknown as T, error: body?.error || response.statusText };
